@@ -24,10 +24,11 @@ Q = mc(T2-T1)
 """
 
 plt.close() # kill the previous plot
+fig, ax = plt.subplots() # plot declaration?
 
 ###### constants
 dT = 1e5 # dT (changes of temperatura)
-tf = 20e7
+final_temperature = 20e7 # temperature limit (the animation finish when current_temperature = final_temperature)
 k = 205 # K constant
 c = 910 # C constant
 rho = 2700 # rho constant
@@ -46,12 +47,11 @@ temperature_matrix = np.ones((tamx,tamy))*(ambient_temperature) # Fill the matri
 temperature_matrix[9,5] = font_temperature # Set the font position ?? [x,y]
 
 updated_temperature_matrix = temperature_matrix.copy()
-fig, ax = plt.subplots()
 heat_transfer_plot = ax.imshow(temperature_matrix, cmap = plt.get_cmap("magma"))
 
 m = (rho*tamx*tamy*esp)
-t = 0 # temperature limit
-while t < tf:
+current_temperature = 0 # temperature counter
+while current_temperature < final_temperature:
   for i in range(tamx):
     for j in range(tamy):
       ti = temperature_matrix[i,j]
@@ -73,6 +73,6 @@ while t < tf:
     temperature_matrix = updated_temperature_matrix.copy()
     temperature_matrix[0,5] = font_temperature
     heat_transfer_plot.set_data(temperature_matrix)
-    plt.title(t)
+    plt.title(current_temperature)
     plt.pause(0.07)
-    t =+ dT
+    current_temperature =+ dT # advance dT in current_temperature
