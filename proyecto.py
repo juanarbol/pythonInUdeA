@@ -27,48 +27,43 @@ t = 0
 dt = 1e5
 tf = 20e7
 
-TFuente = 100
-temp = 30.0
+TFuente = 100 # Font temperature
+temp = 30.0 # Ambient temperature
 
-tamx = 10
-tamy = 10
+tamx = 10 # Size of board in x axis
+tamy = 10 # Size of board in y axis
 dl = 1
-esp = 1
-A = esp**2
+esp = 1 # thickness
+A = esp**2 # Area
 
-k = 205
-c = 910
-rho = 2700
-m = rho*tamx*tamy*esp
+k = 205 # K constant
+c = 910 # C constant
+rho = 2700 # rho constant
 
-nx = tamx//dl
-ny = tamy//dl
+m = (rho*tamx*tamy*esp)
 
-TS = np.ones((nx,ny))*temp
-TF = np.full((nx,ny),False)
-#TF[5,5] = True
-#TF[0,0] = True
-TS[0,5] = TFuente
-#TS[9,5] = TFuente
+TS = np.ones((tamx,tamy))*(temp)
+TF = np.full((tamx,tamy),False)
+
+TS[9,5] = TFuente
+
 TFin = TS.copy()
 plt.close()
 fig, ax = plt.subplots()
-pl1 = ax.imshow(TS,cmap=plt.get_cmap("magma"))
+pl1 = ax.imshow(TS, cmap = plt.get_cmap("magma"))
 while t < tf:
-  for i in range(nx):
-    # Q=[]
-    for j in range(ny):
+  for i in range(tamx):
+    for j in range(tamy):
       ti = TS[i,j]
       Q=[]
-      if i+1 <= (nx-1):
-          Q.append(k*A*(TS[i+1,j] - ti)*(dt/dl))
+      if i+1 <= (tamx-1):
+        Q.append(k*A*(TS[i+1,j] - ti)*(dt/dl))
       if i-1 >= 0:
-          Q.append(k*A*(TS[i-1,j] - ti)*(dt/dl))
-      if j+1 <= (ny-1):
-          Q.append(k*A*(TS[i,j+1] - ti)*(dt/dl))
+        Q.append(k*A*(TS[i-1,j] - ti)*(dt/dl))
+      if j+1 <= (tamy-1):
+        Q.append(k*A*(TS[i,j+1] - ti)*(dt/dl))
       if j-1 >= 0:
-          Q.append(k*A*(TS[i,j-1]-ti)*dt/dl)
-      #print(Q)    
+        Q.append(k*A*(TS[i,j-1]-ti)*dt/dl)
       Qt = sum(Q)
       tem = ti+Qt/(m*c)
       if tem <= TFuente:
@@ -81,6 +76,6 @@ while t < tf:
     pl1.set_data(TS)
     plt.title(t)
     plt.pause(0.07)
-    t = t+dt
+    t =+ dt
 #pl1=ax.imshow(TS)    
 #print(TS)
