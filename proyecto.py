@@ -14,8 +14,8 @@ is transfer through a board
 """
 Ecuations used, listed bellow:
 
-Q = k*A*DT*(dt/dl)
-Q = (T2-T1)*(dt/R)
+Q = k*A*DT*(dT/dl)
+Q = (T2-T1)*(dT/R)
 k = 205 [W/m.K]
 Lambda = 237 aluminio
 c = 910 [J/kg.K] (calor especifico)
@@ -23,59 +23,56 @@ Q = mc(T2-T1)
 
 """
 
-t = 0
-dt = 1e5
+plt.close() # kill the previous plot
+
+###### constants
+dT = 1e5 # dT (changes of temperatura)
 tf = 20e7
-
-TFuente = 100 # Font temperature
-temp = 30.0 # Ambient temperature
-
-tamx = 10 # Size of board in x axis
-tamy = 10 # Size of board in y axis
-dl = 1
-esp = 1 # thickness
-A = esp**2 # Area
-
 k = 205 # K constant
 c = 910 # C constant
 rho = 2700 # rho constant
+ambient_temperature = 30.0 # Ambient temperature
+
+###### Prompt values
+font_temperature = 100 # Font temperature
+tamx = 10 # Size of board in x axis
+tamy = 10 # Size of board in y axis
+
+dl = 1 # ????
+esp = 1 # thickness
+A = esp**2 # Area
+
+temperature_matrix = np.ones((tamx,tamy))*(ambient_temperature) # Fill the matrix with 1*(ambient_temperature)
+temperature_matrix[9,5] = font_temperature # Set the font position ?? [x,y]
+
+updated_temperature_matrix = temperature_matrix.copy()
+fig, ax = plt.subplots()
+heat_transfer_plot = ax.imshow(temperature_matrix, cmap = plt.get_cmap("magma"))
 
 m = (rho*tamx*tamy*esp)
-
-TS = np.ones((tamx,tamy))*(temp)
-TF = np.full((tamx,tamy),False)
-
-TS[9,5] = TFuente
-
-TFin = TS.copy()
-plt.close()
-fig, ax = plt.subplots()
-pl1 = ax.imshow(TS, cmap = plt.get_cmap("magma"))
+t = 0 # temperature limit
 while t < tf:
   for i in range(tamx):
     for j in range(tamy):
-      ti = TS[i,j]
+      ti = temperature_matrix[i,j]
       Q=[]
       if i+1 <= (tamx-1):
-        Q.append(k*A*(TS[i+1,j] - ti)*(dt/dl))
+        Q.append(k*A*(temperature_matrix[i+1,j] - ti)*(dT/dl))
       if i-1 >= 0:
-        Q.append(k*A*(TS[i-1,j] - ti)*(dt/dl))
+        Q.append(k*A*(temperature_matrix[i-1,j] - ti)*(dT/dl))
       if j+1 <= (tamy-1):
-        Q.append(k*A*(TS[i,j+1] - ti)*(dt/dl))
+        Q.append(k*A*(temperature_matrix[i,j+1] - ti)*(dT/dl))
       if j-1 >= 0:
-        Q.append(k*A*(TS[i,j-1]-ti)*dt/dl)
+        Q.append(k*A*(temperature_matrix[i,j-1]-ti)*dT/dl)
       Qt = sum(Q)
       tem = ti+Qt/(m*c)
-      if tem <= TFuente:
-          TFin[i,j] = tem
+      if tem <= font_temperature:
+          updated_temperature_matrix[i,j] = tem
       else:
-          TFin[i,j] = TFuente
-    TS = TFin.copy()
-    TS[0,5] = TFuente
-   # TS[9,5] = TFuente
-    pl1.set_data(TS)
+          updated_temperature_matrix[i,j] = font_temperature
+    temperature_matrix = updated_temperature_matrix.copy()
+    temperature_matrix[0,5] = font_temperature
+    heat_transfer_plot.set_data(temperature_matrix)
     plt.title(t)
     plt.pause(0.07)
-    t =+ dt
-#pl1=ax.imshow(TS)    
-#print(TS)
+    t =+ dT
