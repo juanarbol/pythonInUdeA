@@ -40,8 +40,8 @@ matrix_x_axis = 10 # Size of board in x axis
 matrix_y_axis = 10 # Size of board in y axis
 
 dl = 1 # ????
-esp = 1 # thickness
-A = esp**2 # Area
+thickness = 1 # thickness
+A = thickness**2 # Area
 
 temperature_matrix = np.ones((matrix_x_axis,matrix_y_axis))*(ambient_temperature) # Fill the matrix with 1*(ambient_temperature)
 temperature_matrix[9,5] = font_temperature # Set the font position ?? [x,y]
@@ -49,7 +49,7 @@ temperature_matrix[9,5] = font_temperature # Set the font position ?? [x,y]
 updated_temperature_matrix = temperature_matrix.copy()
 heat_transfer_plot = ax.imshow(temperature_matrix, cmap = plt.get_cmap("magma"))
 
-m = (rho*matrix_x_axis*matrix_y_axis*esp)
+m = (rho*matrix_x_axis*matrix_y_axis*thickness)
 current_temperature = 0 # temperature counter
 while current_temperature < final_temperature:
   for i in range(matrix_x_axis):
@@ -67,9 +67,9 @@ while current_temperature < final_temperature:
       Qt = sum(Q)
       tem = ti+Qt/(m*c)
       if tem <= font_temperature:
-          updated_temperature_matrix[i,j] = tem
+        updated_temperature_matrix[i,j] = tem
       else:
-          updated_temperature_matrix[i,j] = font_temperature
+        updated_temperature_matrix[i,j] = font_temperature
     temperature_matrix = updated_temperature_matrix.copy()
     temperature_matrix[0,5] = font_temperature
     heat_transfer_plot.set_data(temperature_matrix)
