@@ -36,31 +36,31 @@ ambient_temperature = 30.0 # Ambient temperature
 
 ###### Prompt values
 font_temperature = 100 # Font temperature
-tamx = 10 # Size of board in x axis
-tamy = 10 # Size of board in y axis
+matrix_x_axis = 10 # Size of board in x axis
+matrix_y_axis = 10 # Size of board in y axis
 
 dl = 1 # ????
 esp = 1 # thickness
 A = esp**2 # Area
 
-temperature_matrix = np.ones((tamx,tamy))*(ambient_temperature) # Fill the matrix with 1*(ambient_temperature)
+temperature_matrix = np.ones((matrix_x_axis,matrix_y_axis))*(ambient_temperature) # Fill the matrix with 1*(ambient_temperature)
 temperature_matrix[9,5] = font_temperature # Set the font position ?? [x,y]
 
 updated_temperature_matrix = temperature_matrix.copy()
 heat_transfer_plot = ax.imshow(temperature_matrix, cmap = plt.get_cmap("magma"))
 
-m = (rho*tamx*tamy*esp)
+m = (rho*matrix_x_axis*matrix_y_axis*esp)
 current_temperature = 0 # temperature counter
 while current_temperature < final_temperature:
-  for i in range(tamx):
-    for j in range(tamy):
+  for i in range(matrix_x_axis):
+    for j in range(matrix_y_axis):
       ti = temperature_matrix[i,j]
       Q=[]
-      if i+1 <= (tamx-1):
+      if i+1 <= (matrix_x_axis-1):
         Q.append(k*A*(temperature_matrix[i+1,j] - ti)*(dT/dl))
       if i-1 >= 0:
         Q.append(k*A*(temperature_matrix[i-1,j] - ti)*(dT/dl))
-      if j+1 <= (tamy-1):
+      if j+1 <= (matrix_y_axis-1):
         Q.append(k*A*(temperature_matrix[i,j+1] - ti)*(dT/dl))
       if j-1 >= 0:
         Q.append(k*A*(temperature_matrix[i,j-1]-ti)*dT/dl)
