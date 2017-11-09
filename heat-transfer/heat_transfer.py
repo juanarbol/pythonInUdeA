@@ -33,13 +33,14 @@ matrix_x_axis = int(matrix_x_axis)
 matrix_y_axis = input('Digite el tamaño de la placa con respecto al eje y: ') # Size of board in y axis
 matrix_y_axis = int(matrix_y_axis)
 
-font_temperature = input('Digite la temperatura de la fuente (Cº): ') # Font temperature
-font_temperature = int(font_temperature) # Font temperature
+font_temperature_input = int(input('Digite la temperatura de la fuente (Cº): '))
+font_temperature = font_temperature_input if font_temperature_input > 30 else 35
 
-font_x_position = input('Digite la posición de la fuente (x): ') # Font temperature
-font_x_position = int(font_x_position) # Font temperature
-font_y_position = input('Digite la posición de la fuente (y): ') # Font temperature
-font_y_position = int(font_y_position) # Font temperature
+font_x_position_input = int(input('Digite la posición de la fuente (x): '))
+font_x_position = font_x_position_input if font_x_position_input < matrix_x_axis else int(matrix_x_axis/2)
+
+font_y_position_input = int(input('Digite la posición de la fuente (y): '))
+font_y_position = font_y_position_input if font_y_position_input < matrix_y_axis else int(matrix_y_axis/2)
 
 ###### constants
 dT = 1e5 # dT (changes of temperatura)
