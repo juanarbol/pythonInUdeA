@@ -1,0 +1,5 @@
+Primero que nada, verificar que se tiene instalado python3, matplotlib, y numpy
+luego, con tu intérprete de bash, correr en tu terminal "sh run.sh" y llenar los datos que se piden
+
+PD: si la fuente se sitúa por fuera del rango del tamaño de la placa, está será situada en el centro (bien sea del eje x o eje y)
+si se pone una temperatura menor o igual que 30cº, será seteada como 35cº
