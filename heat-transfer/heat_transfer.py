@@ -24,8 +24,22 @@ Q = mc(T2-T1)
 
 """
 
+fig, ax = plt.subplots() # plot declaration
 
-fig, ax = plt.subplots() # plot declaration?
+###### Prompt values
+matrix_x_axis = input('Digite el tamaño de la placa con respecto al eje x: ') # Size of board in x axis
+matrix_x_axis = int(matrix_x_axis)
+
+matrix_y_axis = input('Digite el tamaño de la placa con respecto al eje y: ') # Size of board in y axis
+matrix_y_axis = int(matrix_y_axis)
+
+font_temperature = input('Digite la temperatura de la fuente (Cº): ') # Font temperature
+font_temperature = int(font_temperature) # Font temperature
+
+font_x_position = input('Digite la posición de la fuente (x): ') # Font temperature
+font_x_position = int(font_x_position) # Font temperature
+font_y_position = input('Digite la posición de la fuente (y): ') # Font temperature
+font_y_position = int(font_y_position) # Font temperature
 
 ###### constants
 dT = 1e5 # dT (changes of temperatura)
@@ -34,12 +48,6 @@ k = 205 # K constant
 c = 910 # C constant
 rho = 2700 # rho constant
 ambient_temperature = 30.0 # Ambient temperature
-
-###### Prompt values
-font_temperature = 100 # Font temperature
-matrix_x_axis = 10 # Size of board in x axis
-matrix_y_axis = 10 # Size of board in y axis
-
 dl = 1 # size of cuadricula
 thickness = 1 # thickness
 A = thickness**2 # Area
@@ -56,11 +64,13 @@ constants = {
   "matrix_x_axis": matrix_x_axis,
   "matrix_y_axis": matrix_y_axis,
   "m": (rho*matrix_x_axis*matrix_y_axis*thickness),
-  "A": A
+  "A": A,
+  "font_x_position": font_x_position,
+  "font_y_position": font_y_position
 }
 
 temperature_matrix = ones((matrix_x_axis,matrix_y_axis))*(ambient_temperature) # Fill the matrix with 1*(ambient_temperature)
-temperature_matrix[9,5] = font_temperature # Set the font position ?? [x,y]
+temperature_matrix[font_x_position, font_y_position] = font_temperature # Set the font position ?? [x,y]
 
 heat_transfer_plot = ax.imshow(temperature_matrix, cmap = plt.get_cmap("magma"))
     
