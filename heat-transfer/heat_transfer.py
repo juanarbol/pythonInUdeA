@@ -34,6 +34,9 @@ matrix_x_axis = int(matrix_x_axis)*10 # we've to multiply by 10 cuz' we're divi
 matrix_y_axis = input('Digite el tamaño de la placa con respecto al eje y (en metros): ') # Size of board in y axis
 matrix_y_axis = int(matrix_y_axis)*10 # we've to multiply by 10 cuz' we're diviving it in dm's not metters
 
+thickness = input('Digite el espesor de la placa: ')
+thickness = int(thickness) if thickness > 0 else 1
+
 font_temperature_input = int(input('Digite la temperatura de la fuente (Cº): '))
 font_temperature = font_temperature_input if font_temperature_input > 30 else 35
 
@@ -45,19 +48,16 @@ font_y_position = font_y_position_input//10 if font_y_position_input < matrix_y_
 
 ###### constants
 dT = 1e5 # dT (changes of temperatura)
-final_temperature = 20e7 # temperature limit (the animation finish when current_temperature = final_temperature)
 k = 205 # K constant
 c = 910 # C constant
 rho = 2700 # rho constant
 ambient_temperature = 30.0 # Ambient temperature
 dl = 1 # size of cuadricula
-thickness = 1 # thickness
 A = thickness**2 # Area
 
 constants = {
   "dT": 1e5, # dT (changes of temperatura)
   "dl": 1, 
-  "final_temperature": 20e7, # temperature limit (the animation finish when current_temperature = final_temperature)
   "k": 205, # K constant
   "c": 910, # C constant
   "rho": 2700, # rho constant
