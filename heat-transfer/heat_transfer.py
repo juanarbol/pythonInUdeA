@@ -85,3 +85,7 @@ while process_of_graph is not completed:
   temperature_matrix = graph(heat_transfer_plot, temperature_matrix, constants, current_time)
   process_of_graph = allclose(temperature_matrix, expected_value, 1e-2) # this validates if process has ended with a relative tolerance of 1e-2
   current_time += dT # advance dT in current_temperature
+
+# Pause the plot (30secs) when it is finished
+plt.title("La animación ha terminado.")
+plt.pause(30)
