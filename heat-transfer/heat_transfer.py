@@ -3,6 +3,7 @@
 
 from graph import graph
 from numpy import ones
+from numpy import allclose
 import matplotlib.pyplot as plt
 
 """
@@ -71,11 +72,16 @@ constants = {
 }
 
 temperature_matrix = ones((matrix_x_axis,matrix_y_axis))*(ambient_temperature) # Fill the matrix with 1*(ambient_temperature)
-temperature_matrix[font_x_position, font_y_position] = font_temperature # Set the font position ?? [x,y]
+temperature_matrix[font_x_position, font_y_position] = font_temperature # set the font location
+expected_value = ones((matrix_x_axis,matrix_y_axis))*(font_temperature-0.1)
 
 heat_transfer_plot = ax.imshow(temperature_matrix, cmap = plt.get_cmap("magma"))
-    
-current_temperature = 0 # temperature counter
-while current_temperature < final_temperature:
-  temperature_matrix = graph(heat_transfer_plot, temperature_matrix, constants, current_temperature)
-  current_temperature += dT # advance dT in current_temperature
+
+## Loop conditionals
+process_of_graph = False
+completed = True
+current_time = 0 # temperature counter
+while process_of_graph is not completed:
+  temperature_matrix = graph(heat_transfer_plot, temperature_matrix, constants, current_time)
+  process_of_graph = allclose(temperature_matrix, expected_value, 1e-2) # this validates if process has ended with a relative tolerance of 1e-2
+  current_time += dT # advance dT in current_temperature
