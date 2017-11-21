@@ -34,8 +34,8 @@ matrix_x_axis = int(matrix_x_axis)*10 # we've to multiply by 10 cuz' we're divi
 matrix_y_axis = input('Digite el tamaño de la placa con respecto al eje y (en metros): ') # Size of board in y axis
 matrix_y_axis = int(matrix_y_axis)*10 # we've to multiply by 10 cuz' we're diviving it in dm's not metters
 
-thickness = input('Digite el espesor de la placa: ')
-thickness = int(thickness) if thickness > 0 else 1
+thickness_input = int(input('Digite el espesor de la placa: '))
+thickness = thickness_input if thickness_input > 0 else 1
 
 font_temperature_input = int(input('Digite la temperatura de la fuente (Cº): '))
 font_temperature = font_temperature_input if font_temperature_input > 30 else 35
